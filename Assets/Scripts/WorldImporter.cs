@@ -151,7 +151,7 @@ public class WorldImporter : EditorWindow
         importMap = true;
         
         // check file is exist
-        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/BNA SDK/ExportWorld/" + worldName + ".bnaw";
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/BNA SDK/ExportWorld/" + worldName + ".unitypackage";
         if (File.Exists(path))
         {
             Debug.Log("File exist -> " + path);
@@ -165,7 +165,7 @@ public class WorldImporter : EditorWindow
         
         
         // import file into unity
-        string pathUnity = "Assets/" + worldName + ".bnaw";
+        string pathUnity = "Assets/" + worldName + ".unitypackage";
         if (File.Exists(pathUnity))
         {
             Debug.LogWarning("File already exist in unity -> " + pathUnity);
@@ -178,7 +178,8 @@ public class WorldImporter : EditorWindow
             Debug.Log("File import in unity -> " + pathUnity);
         }
 
-        try
+        //////////////////////////////// -> This work for scene only <- ////////////////////////////////
+       /* try
         {
             StreamReader reader = new StreamReader(pathUnity);
             string line = reader.ReadLine();
@@ -190,7 +191,7 @@ public class WorldImporter : EditorWindow
             await UniTask.Delay(500); // Wait 500ms
 
             // create file unity
-            File.WriteAllText("Assets/" + worldName + ".unity", decodedString);
+            File.WriteAllText("Assets/" + worldName + ".unitypackage", decodedString);
         
             await UniTask.Delay(500); // Wait 500ms
         }
@@ -199,7 +200,7 @@ public class WorldImporter : EditorWindow
             Debug.LogWarning("Error: " + e.Message);
             ErrorType(1);
             return;
-        }
+        }*/
 
         Debug.Log("File decode successfully -> " + pathUnity);
         EditorUtility.DisplayDialog("Success", "File decode successfully \n" + pathUnity, "Nice !");

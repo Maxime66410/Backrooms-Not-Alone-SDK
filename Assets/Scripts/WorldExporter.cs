@@ -151,24 +151,30 @@ public class WorldExporter : EditorWindow
         try
         {
             // check if scene is exist in the folder
-            if (File.Exists(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity"))
+            if (File.Exists(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage"))
             {
                 // Delete scene
-                File.Delete(PathSaveWorld + "/" + worldName + ".unity");
+                File.Delete(PathSaveWorld + "/" + worldName + ".unitypackage");
             }
             
             await UniTask.Delay(500); // Wait 500ms
 
-            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
+            // Export Package of the project
+            AssetDatabase.ExportPackage("Assets", PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage", ExportPackageOptions.Recurse);
             
-            Byte[] bytes = File.ReadAllBytes(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
-            string file = Convert.ToBase64String(bytes);
+            
+            //////////////////////////////// -> This work for scene only <- ////////////////////////////////
+            
+            //EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
+            
+            //Byte[] bytes = File.ReadAllBytes(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage");
+            //string file = Convert.ToBase64String(bytes);
             
             // Delete file Unity
-            File.Delete(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
+           // File.Delete(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage");
             
             // Create file Unity to bnaw
-            File.WriteAllText(PathSaveWorld + "/" + worldName + "_" + versionMap + ".bnaw", file);
+           // File.WriteAllText(PathSaveWorld + "/" + worldName + "_" + versionMap + ".bnaw", file);
             
         }
         catch (Exception e)
