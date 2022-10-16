@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEditor;
 using Cysharp.Threading.Tasks;
 using UnityEditor.SceneManagement;
+using System.Security.Cryptography;
+using System.Text;
 
 public class WorldExporter : EditorWindow
 {
@@ -14,6 +16,8 @@ public class WorldExporter : EditorWindow
     private static bool firstTime = false; // First time
 
     public static string PathSaveWorld = ""; // Path to save the world
+    
+    private byte[] bytesEncode; // Bytes encode
 
     [MenuItem("BNA SDK/World Exporter")]
     public static void ShowWindow()
@@ -134,6 +138,7 @@ public class WorldExporter : EditorWindow
         }
         catch (Exception e)
         {
+            Debug.LogWarning(e.Message);
             ErrorType(2);
             return;
         }
@@ -153,11 +158,22 @@ public class WorldExporter : EditorWindow
             }
             
             await UniTask.Delay(500); // Wait 500ms
-            
+
             EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
+            
+            Byte[] bytes = File.ReadAllBytes(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
+            string file = Convert.ToBase64String(bytes);
+            
+            // Delete file Unity
+            File.Delete(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
+            
+            // Create file Unity to bnaw
+            File.WriteAllText(PathSaveWorld + "/" + worldName + "_" + versionMap + ".bnaw", file);
+            
         }
         catch (Exception e)
         {
+            Debug.LogWarning(e.Message);
             ErrorType(4);
             return;
         }
