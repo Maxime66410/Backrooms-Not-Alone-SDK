@@ -179,6 +179,7 @@ public class WorldExporter : EditorWindow
         }
         
         Debug.Log("Your scene has been successfully exported...");
+        EditorUtility.DisplayDialog("Success", "Your scene has been successfully exported.\n" + PathSaveWorld, "Nice !");
 
         exportMap = false;
     }
@@ -190,21 +191,27 @@ public class WorldExporter : EditorWindow
         switch (_code)
         {
             case 4:
+                EditorUtility.DisplayDialog("Error 4", "An error occurred while exporting your map, please try again.", "Ok");
                 Debug.LogError("Error 4: An error occurred while exporting your map, please try again.");
                 break;
             case 3:
+                EditorUtility.DisplayDialog("Error 3", "Please set the path to save your world (Please setup the project again or reopen this window).", "Ok");
                 Debug.LogError("Error 3: Please set the path to save your world (Please setup the project again or reopen this window).");
                 break;
             case 2:
+                EditorUtility.DisplayDialog("Error 2", "Your scene is not saved!", "Ok");
                 Debug.LogError("Error 2: Your scene is not saved!");
                 break;
             case 1:
+                EditorUtility.DisplayDialog("Error 1", "You must enter a version of your map.", "Ok");
                 Debug.LogError("Error 1: You must enter a version of your map.");
                 break;
             case 0:
+                EditorUtility.DisplayDialog("Error 0", "You must enter a name for your map.", "Ok");
                 Debug.LogError("Error 0: You must enter a name for your map.");
                 break;
             default:
+                EditorUtility.DisplayDialog("Error", "Error code not found.", "Ok");
                 Debug.LogWarning("Error code not found.");
                 break;
         }
@@ -240,6 +247,7 @@ public class WorldExporter : EditorWindow
                 PlayerPrefs.SetInt("firstTimeExport", 1);
                 firstTime = true;
                 Debug.LogWarning("Folder not exist -> " + path + " <- Please setup the project.");
+                EditorUtility.DisplayDialog("Warning", "Folder not exist \n" + path + "\nPlease setup the project.", "Ok");
             }
         }
         catch (Exception e)
@@ -272,6 +280,7 @@ public class WorldExporter : EditorWindow
             PathSaveWorld = pathExportWorld;
             
             Debug.Log("Setup successfully -> " + path);
+            EditorUtility.DisplayDialog("Info", "Setup successfully \n" + path, "Ok");
         }
         catch (Exception e)
         {
