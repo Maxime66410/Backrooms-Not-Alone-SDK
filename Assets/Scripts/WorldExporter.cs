@@ -159,23 +159,35 @@ public class WorldExporter : EditorWindow
             
             await UniTask.Delay(500); // Wait 500ms
 
-            // Export Package of the project
-            AssetDatabase.ExportPackage("Assets", PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage", ExportPackageOptions.Recurse);
+            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
+
+            AssetBundleBuild assetBundleBuild = new AssetBundleBuild();
+            assetBundleBuild.assetNames = new []{EditorSceneManager.GetActiveScene().path};
+            assetBundleBuild.assetBundleName = $"{worldName}.bnaw";
             
+            BuildPipeline.BuildAssetBundles(PathSaveWorld, new []{assetBundleBuild}, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
             
-            //////////////////////////////// -> This work for scene only <- ////////////////////////////////
-            
+            AssetDatabase.Refresh();
+
+            // Export Package of the project <-- V2
+            //AssetDatabase.ExportPackage("Assets", PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage", ExportPackageOptions.Recurse);
+
+
+            //////////////////////////////// -> This work for scene only <- //////////////////////////////// V1
+
             //EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), PathSaveWorld + "/" + worldName + "_" + versionMap + ".unity");
-            
+
             //Byte[] bytes = File.ReadAllBytes(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage");
             //string file = Convert.ToBase64String(bytes);
-            
+
             // Delete file Unity
-           // File.Delete(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage");
-            
+            // File.Delete(PathSaveWorld + "/" + worldName + "_" + versionMap + ".unitypackage");
+
             // Create file Unity to bnaw
-           // File.WriteAllText(PathSaveWorld + "/" + worldName + "_" + versionMap + ".bnaw", file);
-            
+            // File.WriteAllText(PathSaveWorld + "/" + worldName + "_" + versionMap + ".bnaw", file);
+
         }
         catch (Exception e)
         {

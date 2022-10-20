@@ -7,6 +7,8 @@ using Cysharp.Threading.Tasks;
 using UnityEditor.SceneManagement;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEngine.SceneManagement;
+
 public class WorldImporter : EditorWindow
 {
     
@@ -16,7 +18,7 @@ public class WorldImporter : EditorWindow
     public string worldName = "-> WorldExample_0.0.1 <-"; // Name of the world
 
     
-    [MenuItem("BNA SDK/World/World Importer")]
+    [MenuItem("BNA SDK/World/World Importer (Preview)")]
     public static void ShowWindow()
     {
         CheckFolderExist();
@@ -150,8 +152,44 @@ public class WorldImporter : EditorWindow
     {
         importMap = true;
         
+        
+        //////////////////////////////////////////////////////////////V3
+        
+        string pathUnity = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/BNA SDK/ExportWorld/" + worldName + ".bnaw";
+        // Load AssetsBundle 
+        try
+        {
+            var myLoadedAssetBundle = AssetBundle.LoadFromFile(pathUnity);
+
+            if (myLoadedAssetBundle == null)
+            {
+                Debug.Log("Failed to load AssetBundle!");
+                importMap = false;
+                return;
+            }
+            else
+            {
+                Debug.Log("Load AssetBundle successfully!");
+            }
+
+        
+            if (myLoadedAssetBundle.isStreamedSceneAssetBundle)
+            {
+                string[] scenePaths = myLoadedAssetBundle.GetAllScenePaths();
+                string sceneName = Path.GetFileNameWithoutExtension(scenePaths[0]);
+                SceneManager.LoadScene(sceneName);
+            }
+        
+            myLoadedAssetBundle.Unload(false);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error: " + e.Message);
+        }
+
+        ////////////////////////////////////////////////////////////// V2
         // check file is exist
-        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/BNA SDK/ExportWorld/" + worldName + ".unitypackage";
+      /*  string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/BNA SDK/ExportWorld/" + worldName + ".unitypackage";
         if (File.Exists(path))
         {
             Debug.Log("File exist -> " + path);
@@ -176,9 +214,9 @@ public class WorldImporter : EditorWindow
         {
             File.Copy(path, pathUnity);
             Debug.Log("File import in unity -> " + pathUnity);
-        }
+        }*/
 
-        //////////////////////////////// -> This work for scene only <- ////////////////////////////////
+        //////////////////////////////// -> This work for scene only <- //////////////////////////////// V1
        /* try
         {
             StreamReader reader = new StreamReader(pathUnity);
