@@ -20,7 +20,7 @@ public class AvatarExporter : EditorWindow
 
     public static string PathSaveAvatar = ""; // Path to save the Avatar
 
-    [MenuItem("BNA SDK/Avatar/Avatar Exporter")]
+    [MenuItem("BNA SDK/Avatar/Avatar Export")]
     public static void ShowWindow()
     {
         CheckFolderExist();

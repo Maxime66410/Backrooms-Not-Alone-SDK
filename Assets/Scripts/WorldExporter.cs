@@ -19,7 +19,7 @@ public class WorldExporter : EditorWindow
     
     private byte[] bytesEncode; // Bytes encode
 
-    [MenuItem("BNA SDK/World/World Exporter")]
+    [MenuItem("BNA SDK/World/World Export")]
     public static void ShowWindow()
     {
         CheckFolderExist();

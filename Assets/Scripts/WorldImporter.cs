@@ -18,7 +18,7 @@ public class WorldImporter : EditorWindow
     public string worldName = "-> WorldExample_0.0.1 <-"; // Name of the world
 
     
-    [MenuItem("BNA SDK/World/World Importer (Preview)")]
+    [MenuItem("BNA SDK/World/World Import (Preview)")]
     public static void ShowWindow()
     {
         CheckFolderExist();
